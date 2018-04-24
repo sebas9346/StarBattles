@@ -3,16 +3,17 @@
 #define GAME_H
 
 #include "SDL.h"
+#include "SDL_image.h"
 #include <iostream>
 
 class Game{
 	public:
 		Game();
 		~Game();
-		void init(const char* title, int xpos, int ypos, int width, bool fullscreen);
+		void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 
 		void handleEvents();
-		void update();
+		void update(); //Individual class update functions will go here!!
 		void render();
 		void clean();
 
@@ -21,9 +22,8 @@ class Game{
 	private:
 		bool isRunning;
 		SDL_Window *window;
-		SDL_Renderer *renderer
+		SDL_Renderer *renderer;
+
+		int cnt=0;
 };
-#endif // !GAME_H
-
-
-
+#endif
