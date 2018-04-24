@@ -1,7 +1,9 @@
 #include "Game.h"
+#include "TextureManager.h"
+#include "GameObject.h"
 
-SDL_Texture* playerTex;
-SDL_Rect srcR, destR;
+GameObject* player;
+
 using namespace std;
 Game::Game(){
 }
@@ -34,9 +36,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	}
 
 	//Creating texture
-	SDL_Surface* tmpSurface = IMG_Load("assets/Player.png");
-	playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-	SDL_FreeSurface(tmpSurface);
+	
+	player = new GameObject("assets/Player.png", renderer);
+
 }
 
 void Game::handleEvents() {
@@ -53,19 +55,14 @@ void Game::handleEvents() {
 
 //Individual class update functions will go here!!
 void Game::update() {
-	cnt++;
-	destR.h = 64;
-	destR.w = 64;
-	destR.x = cnt;
-
-	cout << cnt << endl;
+	player->update();
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
 	//add stuff to render
-	SDL_RenderCopy(renderer, playerTex, NULL, &destR);// 1st null is source rectangle // 2nd null where to draw on screen
-
+	player->render();
+	//
 	SDL_RenderPresent(renderer);
 
 }
