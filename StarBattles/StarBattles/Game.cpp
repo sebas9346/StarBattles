@@ -4,14 +4,15 @@ SDL_Texture* playerTex;
 SDL_Rect srcR, destR;
 using namespace std;
 Game::Game(){
+
 }
 
 
 Game::~Game(){
+
 }
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height,bool fullscreen) {
-	
 	int flags = 0;
 	if (fullscreen == true) {
 		flags = SDL_WINDOW_FULLSCREEN;
@@ -37,6 +38,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	SDL_Surface* tmpSurface = IMG_Load("assets/Player.png");
 	playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
+	roninputmanager = InputManager::Instance();
 }
 
 void Game::handleEvents() {
@@ -53,12 +55,37 @@ void Game::handleEvents() {
 
 //Individual class update functions will go here!!
 void Game::update() {
-	cnt++;
-	destR.h = 64;
-	destR.w = 64;
-	destR.x = cnt;
+	//input manager updating in game
+	roninputmanager->Update();
+	//cnt++;
+	if (roninputmanager->KeyDown(SDL_SCANCODE_D)) {
+		cnt++;
+		destR.h = 64;
+		destR.w = 64;
+		destR.x = cnt + 1;
+	}
+	else if (roninputmanager->KeyDown(SDL_SCANCODE_A)) {
+		cnt--;
+		destR.h = 64;
+		destR.w = 64;
+		destR.x = cnt - 1;
+	}
+	else if (roninputmanager->KeyDown(SDL_SCANCODE_W)) {
+		cnt--;
+		destR.h = 64;
+		destR.w = 64;
+		destR.y = cnt - 1;
+	}
+	else if (roninputmanager->KeyDown(SDL_SCANCODE_S)) {
+		cnt--;
+		destR.h = 64;
+		destR.w = 64;
+		destR.y = cnt - 1;
+	}
+	
 
 	cout << cnt << endl;
+	
 }
 
 void Game::render() {
@@ -70,6 +97,8 @@ void Game::render() {
 
 }
 void Game::clean() {
+	InputManager::Release;
+	roninputmanager = NULL;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
