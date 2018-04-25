@@ -1,5 +1,5 @@
-
-#include "SDL.h"
+#include <iostream>
+#include <SDL.h>
 
 #include "Game.h"
 using namespace std;
