@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 
-
+GameObject::GameObject() {}
 GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren,int x, int y)
 {
 	renderer = ren;
@@ -16,19 +16,17 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::update(int x, int y) {
-	xpos = x;
-	ypos = y;
-
-	srcRect.h = 1854;// Dimension of image to use(Slab from texture sheet)
+void GameObject::update() {
+	srcRect.h = 1854;
 	srcRect.w = 1473;
 	srcRect.x = 0;
 	srcRect.y = 0;
 
+
 	destRect.x = xpos;
 	destRect.y = ypos;
-	destRect.w = srcRect.w/5 ;
-	destRect.h = srcRect.h /5;
+	destRect.w = srcRect.w / 5;
+	destRect.h = srcRect.h / 5;
 }
 void GameObject::render() {
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);

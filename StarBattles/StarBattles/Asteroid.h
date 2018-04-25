@@ -1,18 +1,13 @@
 #pragma once
-#ifndef ASTEROID_H
-#define ASTEROID_H
-
-
 #include "GameObject.h"
-class Asteroid : public GameObject
+class Asteroid: public GameObject
 {
 public:
 	Asteroid();
+	void moveLeft(void);
+	void moveRight(void);
+	void update(void);
 	~Asteroid();
+
 };
-
-
-#endif // !Asteroid
-
-
 

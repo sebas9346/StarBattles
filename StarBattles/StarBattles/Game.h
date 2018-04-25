@@ -1,10 +1,10 @@
 #pragma once
 #ifndef GAME_H
 #define GAME_H
-#include "InputManager.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "InputManager.h"
 #include <iostream>
 
 class Game{
@@ -24,7 +24,8 @@ class Game{
 		bool isRunning;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
-		InputManager* roninputmanager;
+		InputManager* inputmanager;
+
 
 		int cnt=0;
 };

@@ -9,13 +9,14 @@
 class GameObject
 {
 public:
+	GameObject();
 	GameObject(const char* texturesheet, SDL_Renderer* ren, int x, int y);
 	~GameObject();
 
-	void update(int x, int y);
+	void update();
 	void render();
 
-private:
+protected:
 	int xpos;
 	int ypos;
 

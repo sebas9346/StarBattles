@@ -1,5 +1,5 @@
-
-#include "SDL.h"
+#include <iostream>
+#include <SDL.h>
 
 #include "Game.h"
 using namespace std;
@@ -7,6 +7,8 @@ const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
 Game *game = nullptr;
+int starposx = 0;
+int starposy = 0;
 int main(int argc, char * argv[])
 {
 	const int FPS = 60;
