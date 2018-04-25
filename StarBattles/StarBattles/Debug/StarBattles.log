@@ -1,2 +1,5 @@
-﻿  GameObject.cpp
-  StarBattles.vcxproj -> C:\Users\sebas\Desktop\ECE4122final\StarBattles\StarBattles\Debug\StarBattles.exe
+﻿  Game.cpp
+c:\users\sebas\desktop\ece4122final\starbattles\starbattles\starbattles\game.cpp(40): error C2661: 'GameObject::GameObject': no overloaded function takes 2 arguments
+c:\users\sebas\desktop\ece4122final\starbattles\starbattles\starbattles\game.cpp(58): error C2660: 'GameObject::update': function does not take 0 arguments
+  GameObject.cpp
+  Generating Code...
