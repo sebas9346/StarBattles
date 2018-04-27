@@ -134,7 +134,10 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Lazer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Rocketship.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,10 +149,19 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Layout.h" />
+    <ClInclude Include="Lazer.h" />
+    <ClInclude Include="Rocketship.h" />
+    <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\fontstar.png" />
     <Image Include="assets\Player.png" />
+    <Image Include="assets\Rocket.png" />
+    <Image Include="assets\space.png" />
+    <Image Include="assets\spacewhite.png" />
+    <Image Include="assets\Starfield.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

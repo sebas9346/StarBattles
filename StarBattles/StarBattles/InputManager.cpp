@@ -1,3 +1,4 @@
+
 #include "InputManager.h"
 
 
@@ -32,3 +33,4 @@ bool InputManager::KeyDown(SDL_Scancode scancode) {
 void InputManager::Update(){
 	mKeyBoardStates = SDL_GetKeyboardState(NULL);  //fill array with all SDL keyboard states from SDL framework
 }
+#

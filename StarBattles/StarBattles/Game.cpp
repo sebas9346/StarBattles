@@ -1,12 +1,28 @@
 #include "Game.h"
-#include "TextureManager.h"
-#include "GameObject.h"
+#include "Rocketship.h"
+#include "Lazer.h"
 #include "Asteroid.h"
 
-GameObject* player;
-Asteroid* asteroid;
+#include <iterator>
+#include <list>
+
 
 using namespace std;
+//Asteroids
+list<GameObject*> asteroids;
+int numAsteroids = 0;
+int maxAsteroids = 10;
+
+//Lazer
+Lazer* majorLazer;
+Rocketship* rocket;
+
+int ammo = 50; //amount of lasers allowed
+bool firedLast = false; //keep track of spacebar keystroke
+int lazerShift = 29; //to center the firing of lazers
+
+list<GameObject*> allLazers;
+
 Game::Game(){
 }
 
@@ -27,8 +43,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 			cout << "window has been created" << endl;
 		}
 		renderer = SDL_CreateRenderer(window, -1, 0);
+
 		if (renderer) {
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			cout << "Renderer created" << endl;
 		}
 		isRunning = true;
@@ -37,17 +54,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		isRunning = false;
 	}
 
-	//Creating texture
-
-	SDL_Surface* tmpSurface = IMG_Load("assets/Player.png");
-
-	SDL_FreeSurface(tmpSurface);
 
 	inputmanager = InputManager::Instance();
 	
-	//player = new GameObject("assets/Player.png", renderer, 0, 0);
-	asteroid = new Asteroid();
-
+	rocket = new Rocketship(renderer, 350, 600);
 
 }
 
@@ -65,45 +75,78 @@ void Game::handleEvents() {
 
 //Individual class update functions will go here!!
 void Game::update() {
-	//input manager updating in game
 
-
-	//Asteroid::update(int x,int y) {
-	//	xpos = x;
-	//	ypos = y;
-	//
-	//	srcRect.h = 1854;// Dimension of image to use(Slab from texture sheet)
-	//	srcRect.w = 1473;
-	//	srcRect.x = 0;
-	//	srcRect.y = 0;
-	//
-	//	destRect.x = xpos;
-	//	destRect.y = ypos;
-	//	destRect.w = srcRect.w / 5;
-	//	destRect.h = srcRect.h / 5;
-	//}
 	inputmanager->Update();
-	//cnt++;
+	
 	if (isRunning) {
-		
+
 		if (inputmanager->KeyDown(SDL_SCANCODE_D)) {
-			asteroid->moveRight();
+			rocket->moveRight();
 		}
 		else if (inputmanager->KeyDown(SDL_SCANCODE_A)) {
-			asteroid->moveLeft();
+			rocket->moveLeft();
+		}
+		//}
+
+		if (inputmanager->KeyDown(SDL_SCANCODE_SPACE) && !firedLast) {
+			firedLast = true;
+			if (ammo > 0) {
+				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 600);
+				allLazers.push_back(majorLazer);
+				ammo--;
+			}
+			else
+				ammo = 0; //game over..chill this is a place holder...need @Ronald's code!		
+		}
+		else if (!(inputmanager->KeyDown(SDL_SCANCODE_SPACE)) && firedLast) {
+			firedLast = false;
+		}
+	}
+
+	rocket->update(); // update rocket
+
+	//lazer update
+
+	//Update all the lazers 
+	for (list<GameObject*>::iterator it = allLazers.begin(); it != allLazers.end(); ++it) {
+		(*it)->update();
+
+		//some code here for @Victor for asteroid collision
+	}
+
+	//Asteroid control
+	while(asteroids.size() < maxAsteroids) {
+			asteroids.push_back(new Asteroid(renderer));
+			numAsteroids++;
+			
+	}
+	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); ) {
+	
+		(*it)->update();
+		
+		if ((*it)->isOutOfBounds()) {
+			(*it)->reset();
+		}
+		else {
+			it++;
 		}
 	}
 	
-	
-	//player->update();
-	asteroid->update();
 
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
 	//add stuff to render
-	player->render();
+	rocket->render();
+
+	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); it++) {
+		(*it)->render();
+	}
+	for (list<GameObject*>::iterator it = allLazers.begin(); it != allLazers.end(); ++it) {
+		(*it)->render();
+	}
+	
 	//
 	SDL_RenderPresent(renderer);
 

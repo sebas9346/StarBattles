@@ -33,6 +33,15 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lazer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rocketship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
@@ -54,9 +63,36 @@
     <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Layout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lazer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocketship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\Player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Rocket.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\fontstar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\space.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\spacewhite.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Starfield.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -3,17 +3,19 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-
-#include "Game.h"
-
+#include "TextureManager.h"
+#include "GameObject.h"
 class GameObject
 {
 public:
 	GameObject();
-	GameObject(const char* texturesheet, SDL_Renderer* ren, int x, int y);
 	~GameObject();
 
-	void update();
+	virtual void update();
+	virtual void reset();
+	bool isOutOfBounds();
+	int getX();
+	void clean();
 	void render();
 
 protected:
@@ -21,6 +23,7 @@ protected:
 	int ypos;
 
 	SDL_Texture* objTexture;
+	SDL_Surface* tmpSurface;
 	SDL_Rect srcRect, destRect;
 	SDL_Renderer* renderer;
 };
