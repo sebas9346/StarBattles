@@ -1,3 +1,3 @@
-﻿  StartScreen.cpp
-  StarBattles.vcxproj -> C:\Users\sebas\Desktop\ECE4122final\StarBattles\StarBattles\Debug\StarBattles.exe
-  StarBattles.vcxproj -> C:\Users\sebas\Desktop\ECE4122final\StarBattles\StarBattles\Debug\StarBattles.pdb (Partial PDB)
+﻿  Main.cpp
+c:\users\ronal\desktop\starbattles\starbattles\starbattles\main.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  StarBattles.vcxproj -> C:\Users\ronal\Desktop\StarBattles\StarBattles\Debug\StarBattles.exe

@@ -26,10 +26,10 @@ int main(int argc, char * argv[])
 	
 	//Ronald's code
 	startScreen = new StartScreen();
-	startScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,start);
+	startScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	//
 
-	while (!start) {
+	while (!startScreen->ishitspace()) {
 
 		frameStart = SDL_GetTicks();
 
@@ -48,13 +48,15 @@ int main(int argc, char * argv[])
 	game = new Game();
 	game->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
 
-	while (game ->running() ) {
+	while (game->running()) {
 
-		frameStart = SDL_GetTicks();
+		frameStart = SDL_GetTicks();	
+			game->handleEvents();
+			game->update();
+			game->render();
 
-		game->handleEvents();
-		game->update();
-		game->render();
+
+
 
 		frameTime = SDL_GetTicks() - frameStart;
 

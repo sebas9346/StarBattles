@@ -20,7 +20,7 @@ StartScreen::~StartScreen()
 {
 }
 
-void StartScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen,bool &startGame) {
+void StartScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
 	int flags = 0;
 	if (fullscreen == true) {
@@ -69,7 +69,7 @@ void StartScreen::handleEvents() {
 	SDL_PollEvent(&event);
 	switch (event.type) {
 	case SDL_QUIT:
-		startGame = false;
+		hitspace = false;
 		break;
 	default:
 		break;
@@ -79,11 +79,19 @@ void StartScreen::handleEvents() {
 //Individual class update functions will go here!!
 void StartScreen::updates() {
 	
-	
+
+
+	inputmanager->Update();
 	if (inputmanager->KeyDown(SDL_SCANCODE_SPACE)) {
-		startGame = true;
+		hitspace = true;
+		cout << "true" << endl;
 	}
-	
+	//cnt++;
+	//if (hitspace) {
+
+		
+	//}
+	//
 	srcR.h = 65;
 	srcR.w = 636;
 	srcR.x = 0;
@@ -111,14 +119,30 @@ void StartScreen::renders() {
 	//add stuff to render
 	SDL_RenderCopy(renderer, starfield, NULL, NULL);
 	SDL_RenderCopy(renderer, fontstar, &srcR, &destR);
-	//SDL_RenderPresent(renderer);
-
-	SDL_RenderCopy(renderer, spacew, &srcS, &destS);
 	SDL_RenderPresent(renderer);
-}
 
+
+
+	
+		inputmanager->Update();
+		int mstime = SDL_GetTicks();
+		int mstime1 = SDL_GetTicks();
+		if ((mstime % 2) == 0) {
+			SDL_RenderCopy(renderer, spacer, &srcS, &destS);
+			SDL_RenderPresent(renderer);
+		}
+		//SDL_Delay(500);
+		else {
+			SDL_RenderCopy(renderer, spacew, &srcS, &destS);
+			SDL_RenderPresent(renderer);
+		}
+		//SDL_Delay(500);
+	SDL_RenderPresent(renderer);
+
+	
+
+}
 void StartScreen::cleans() {
-	inputmanager->Release();
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();

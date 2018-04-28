@@ -14,7 +14,6 @@ class StartScreen
 private:
 	//ronald start screen object no debating 
 	bool hitspace = false;
-	bool startGame = false;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	InputManager* inputmanager;
@@ -27,7 +26,7 @@ public:
 	StartScreen();
 	~StartScreen();
 
-	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, bool& );
+	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 
 	void handleEvents();
 	void updates(); //Individual class update functions will go here!!
