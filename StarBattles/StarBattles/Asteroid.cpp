@@ -1,6 +1,6 @@
 #include "Asteroid.h"
 #include <random>
-
+//test
 using namespace std;
 Asteroid::Asteroid(SDL_Renderer* ren)
 {
