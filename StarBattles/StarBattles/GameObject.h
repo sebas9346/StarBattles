@@ -15,8 +15,13 @@ public:
 	virtual void reset();
 	bool isOutOfBounds();
 	int getX();
+	int getY();
+	int getWidth();
+	int getHeight();
+	void setX(int X);
 	void clean();
 	void render();
+	bool collision(GameObject*);
 
 protected:
 	int xpos;

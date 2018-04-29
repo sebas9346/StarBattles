@@ -6,8 +6,8 @@ Asteroid::Asteroid(SDL_Renderer* ren)
 {
 	
 	renderer = ren;
-	objTexture = TextureManager::LoadTexture("assets/Player.png", renderer);
-	speed = 1+(rand() % 10);
+	objTexture = TextureManager::LoadTexture("assets/AsteroidBrown.png", renderer);
+	speed = 1+(rand() % 7);
 	xpos = rand()%800;
 	ypos = 0;
 }
@@ -19,8 +19,8 @@ void Asteroid::moveRight(void) {
 }
 void Asteroid::update() {
 	ypos = ypos + speed;
-	srcRect.h = 1854;
-	srcRect.w = 1473;
+	srcRect.h = 64;
+	srcRect.w = 64;
 	srcRect.x = 0;
 	srcRect.y = 0;
 

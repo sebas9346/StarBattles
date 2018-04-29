@@ -16,12 +16,14 @@ int maxAsteroids = 10;
 //Lazer
 Lazer* majorLazer;
 Rocketship* rocket;
+int lives = 3;
 
 int ammo = 50; //amount of lasers allowed
 bool firedLast = false; //keep track of spacebar keystroke
 int lazerShift = 29; //to center the firing of lazers
 
 list<GameObject*> allLazers;
+list<GameObject*> rocketlives;
 
 Game::Game(){
 }
@@ -57,7 +59,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 
 	inputmanager = InputManager::Instance();
 	
-	rocket = new Rocketship(renderer, 350, 600);
+	rocket = new Rocketship(renderer, 350, 500);
+	for (int i = 0; i < lives; i++) {
+		int x =550 + (i * 64);
+		rocketlives.push_back(new Rocketship(renderer, x, 0));
+	}
+	
 
 }
 
@@ -86,12 +93,11 @@ void Game::update() {
 		else if (inputmanager->KeyDown(SDL_SCANCODE_A)) {
 			rocket->moveLeft();
 		}
-		//}
 
 		if (inputmanager->KeyDown(SDL_SCANCODE_SPACE) && !firedLast) {
 			firedLast = true;
 			if (ammo > 0) {
-				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 600);
+				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 500);
 				allLazers.push_back(majorLazer);
 				ammo--;
 			}
@@ -108,21 +114,43 @@ void Game::update() {
 	//lazer update
 
 	//Update all the lazers 
-	for (list<GameObject*>::iterator it = allLazers.begin(); it != allLazers.end(); ++it) {
-		(*it)->update();
-
-		//some code here for @Victor for asteroid collision
+	for (list<GameObject*>::iterator la = allLazers.begin(); la != allLazers.end(); ++la) {
+		(*la)->update();
 	}
 
+	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
+
+		(*it)->update();
+		if ((*it)->collision(rocket)) {
+			rocket->isDead();
+			(*it)->reset();
+			rocket->reset();
+		}
+		
+		if ((*it)->isOutOfBounds()) {
+			(*it)->reset();
+		}
+		else {
+		it++;
+		}
+	}
+
+		//some code here for @Victor for asteroid collision
+	
 	//Asteroid control
 	while(asteroids.size() < maxAsteroids) {
 			asteroids.push_back(new Asteroid(renderer));
 			numAsteroids++;
 			
 	}
-	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); ) {
+	/*for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
 	
 		(*it)->update();
+		if ((*it)->collision(rocket)) {
+			rocket->isDead();
+			(*it)->reset();
+			rocket->reset();
+		}
 		
 		if ((*it)->isOutOfBounds()) {
 			(*it)->reset();
@@ -130,8 +158,19 @@ void Game::update() {
 		else {
 			it++;
 		}
+	}*/
+
+	if (rocket->getLife() < lives) {
+		cout << "dec lives" << endl;
+		lives = rocket->getLife();
+		GameObject* tmp = rocketlives.front();
+		tmp->setX(1000);
+		rocketlives.remove(tmp);
+		cout << rocketlives.size()<<endl;
 	}
-	
+	for (list<GameObject*>::iterator it = rocketlives.begin(); it != rocketlives.end(); ++it) {
+		(*it)->update();
+	}
 
 }
 
@@ -146,7 +185,9 @@ void Game::render() {
 	for (list<GameObject*>::iterator it = allLazers.begin(); it != allLazers.end(); ++it) {
 		(*it)->render();
 	}
-	
+	for (list<GameObject*>::iterator it = rocketlives.begin(); it != rocketlives.end(); ++it) {
+		(*it)->render();
+	}
 	//
 	SDL_RenderPresent(renderer);
 

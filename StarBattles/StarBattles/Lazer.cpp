@@ -3,29 +3,31 @@
 //Default constructor
 Lazer::Lazer(SDL_Renderer * ren, int x, int y) {
 	renderer = ren;
-	objTexture = TextureManager::LoadTexture("assets/Player.png", renderer);
+	objTexture = TextureManager::LoadTexture("assets/Laser.png", renderer);
 
-	xpos = x; //create laser off screen
+	xpos = x; 
 	ypos = y;
 }
 
 //Destructor
 Lazer::~Lazer() {}
 
-
+void Lazer::reset() {
+	ypos = -500;
+}
 //Update the start position
 //of the laser
 void Lazer::update() {
 	ypos -= 5;
 	/*srcRect.h = 74;
 	srcRect.w = 12;*/
-	srcRect.w = 1473;
-	srcRect.h = 1854;
+	srcRect.w = 64;
+	srcRect.h = 64;
 	srcRect.x = 0;
 	srcRect.y = 0;
 
 	destRect.x = xpos;
 	destRect.y = ypos;
-	destRect.w = 6;
-	destRect.h = 12;
+	destRect.w = 18;
+	destRect.h = 24;
 }

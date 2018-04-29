@@ -9,6 +9,7 @@ class Lazer : public GameObject{
 public:
 	Lazer(SDL_Renderer *, int, int); //constructor
 	~Lazer();
+	void reset();
 	void update();
 };
 

@@ -80,9 +80,6 @@
     <Image Include="assets\Player.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\Rocket.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="assets\fontstar.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -93,6 +90,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\Starfield.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Rocket.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -20,11 +20,13 @@ public:
 	bool isDead();
 	void isScore();
 	void isSpecialScore();
+	int getLife();
 
 	//motion
 	void moveRight();
 	void moveLeft();
 	void update();
+	void reset();
 
 protected:
 	bool killed; //true or false value to determine end of game

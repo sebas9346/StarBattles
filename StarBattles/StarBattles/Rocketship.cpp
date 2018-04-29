@@ -4,7 +4,7 @@
 Rocketship::Rocketship(SDL_Renderer *ren, int x, int y)
 {
 	renderer = ren;
-	objTexture = TextureManager::LoadTexture("assets/Player.png", renderer);
+	objTexture = TextureManager::LoadTexture("assets/Rocket.png", renderer);
 
 	xpos = x;
 	ypos = y;
@@ -51,18 +51,27 @@ void Rocketship::moveRight(void) {
 	else
 		xpos += 5; //changing x pos by 5
 }
+int Rocketship::getLife(void) {
+	return lives;
+}
+void Rocketship::reset() {
+	/*xpos = -5;
+	ypos = -5;
+	xpos = 350;
+	ypos = 500;*/
+}
 
 //Method to update the rocket
 void Rocketship::update(void) {
-	srcRect.w = 1473;
-	srcRect.h = 1854;
-	srcRect.x = 200;
-	srcRect.y = 200;
+	srcRect.w = 64;
+	srcRect.h = 64;
+	srcRect.x = 0;
+	srcRect.y = 0;
 	
 	destRect.x = xpos;
 	destRect.y = ypos;
-	destRect.w = 63;
-	destRect.h = 100;
+	destRect.w = 64;
+	destRect.h = 64;
 }
 
 Rocketship::~Rocketship() {}
