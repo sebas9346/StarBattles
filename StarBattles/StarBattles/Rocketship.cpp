@@ -63,9 +63,18 @@ void Rocketship::reset() {
 
 //Method to update the rocket
 void Rocketship::update(void) {
+	
+	if (ani < 64 * 5 && pass == 6) {
+		ani += 64;
+		pass = 0;
+	}
+	else if(ani >= 64*5) {
+		ani = 0;
+	}
+	pass += 1;
 	srcRect.w = 64;
 	srcRect.h = 64;
-	srcRect.x = 0;
+	srcRect.x = ani;
 	srcRect.y = 0;
 	
 	destRect.x = xpos;

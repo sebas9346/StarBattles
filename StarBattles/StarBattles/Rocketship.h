@@ -32,6 +32,8 @@ protected:
 	bool killed; //true or false value to determine end of game
 	int lives; //number of lives
 	int score;   //score keeper
+	int ani = 0;
+	int pass = 0;
 };
 #endif
 
