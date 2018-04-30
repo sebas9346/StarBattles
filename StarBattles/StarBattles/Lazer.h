@@ -11,6 +11,9 @@ public:
 	~Lazer();
 	void reset();
 	void update();
+protected:
+	int ani = 0;
+	int spr_update_count = 0;
 };
 
 #endif

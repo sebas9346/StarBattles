@@ -20,7 +20,7 @@ int lives = 3;
 
 int ammo = 50; //amount of lasers allowed
 bool firedLast = false; //keep track of spacebar keystroke
-int lazerShift = 29; //to center the firing of lazers
+int lazerShift = 0; //to center the firing of lazers
 
 list<GameObject*> allLazers;
 list<GameObject*> rocketlives;
@@ -120,7 +120,27 @@ void Game::update() {
 
 	//Update all the lazers 
 	for (list<GameObject*>::iterator la = allLazers.begin(); la != allLazers.end(); ++la) {
+		
+		bool collisionFlag = false;
 		(*la)->update();
+		//some code here for @Victor for asteroid collision
+		for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
+			if ((*it)->collision(*la)) {
+				(*it)->reset();
+				collisionFlag = true;
+				break;
+			}
+			it++;
+
+		}
+		if (collisionFlag) {
+			allLazers.remove(*la);
+			(*la)->reset();
+		}
+		
+
+		
+		//(*la)->update();
 		//some code here for @Victor for asteroid collision
 	}
 

@@ -17,7 +17,7 @@ void GameObject::render() {
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }
 bool GameObject::isOutOfBounds() {
-	if (ypos > 900) {
+	if (ypos > 900 || ypos < -1) {
 		return true;
 	}
 	return false;
@@ -41,8 +41,8 @@ void GameObject::clean() {
 	SDL_RenderClear(renderer);
 }
 bool GameObject::collision(GameObject* other) {
-	int x_diff = 3;
-	int y_diff = 3;
+	int x_diff = 10;
+	int y_diff = 10;
 
 	int astLeftBound = getX() + x_diff;
 	int astRightBound = getX() + getWidth() - x_diff;

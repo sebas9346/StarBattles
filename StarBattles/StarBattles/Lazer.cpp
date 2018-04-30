@@ -21,13 +21,22 @@ void Lazer::update() {
 	ypos -= 5;
 	/*srcRect.h = 74;
 	srcRect.w = 12;*/
+
+	if (ani < 64 * 4 && spr_update_count == 5) {
+		ani += 64;
+		spr_update_count = 0;
+	}
+	else if (ani >= 64 * 4) {
+		ani = 0;
+	}
+	spr_update_count++;
 	srcRect.w = 64;
 	srcRect.h = 64;
-	srcRect.x = 0;
+	srcRect.x = ani;
 	srcRect.y = 0;
 
 	destRect.x = xpos;
 	destRect.y = ypos;
-	destRect.w = 18;
-	destRect.h = 24;
+	destRect.w = 64;
+	destRect.h = 64;
 }
