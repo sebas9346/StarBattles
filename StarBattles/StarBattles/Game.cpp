@@ -24,6 +24,7 @@ int lazerShift = 29; //to center the firing of lazers
 
 list<GameObject*> allLazers;
 list<GameObject*> rocketlives;
+SDL_Texture* backGround;
 
 Game::Game(){
 }
@@ -55,7 +56,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	else {
 		isRunning = false;
 	}
-
+	SDL_Surface* tmpSurface = IMG_Load("assets/Starfield.png");
+	backGround = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	SDL_FreeSurface(tmpSurface);
 
 	inputmanager = InputManager::Instance();
 	
@@ -64,6 +67,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		int x =550 + (i * 64);
 		rocketlives.push_back(new Rocketship(renderer, x, 0));
 	}
+
+	
 	
 
 }
@@ -116,6 +121,7 @@ void Game::update() {
 	//Update all the lazers 
 	for (list<GameObject*>::iterator la = allLazers.begin(); la != allLazers.end(); ++la) {
 		(*la)->update();
+		//some code here for @Victor for asteroid collision
 	}
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
@@ -135,7 +141,6 @@ void Game::update() {
 		}
 	}
 
-		//some code here for @Victor for asteroid collision
 	
 	//Asteroid control
 	while(asteroids.size() < maxAsteroids) {
@@ -177,7 +182,9 @@ void Game::update() {
 void Game::render() {
 	SDL_RenderClear(renderer);
 	//add stuff to render
+	SDL_RenderCopy(renderer, backGround, NULL, NULL);
 	rocket->render();
+	
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); it++) {
 		(*it)->render();
@@ -189,6 +196,7 @@ void Game::render() {
 		(*it)->render();
 	}
 	//
+	
 	SDL_RenderPresent(renderer);
 
 }

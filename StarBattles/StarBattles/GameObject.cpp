@@ -41,8 +41,8 @@ void GameObject::clean() {
 	SDL_RenderClear(renderer);
 }
 bool GameObject::collision(GameObject* other) {
-	int x_diff = 10;
-	int y_diff = 10;
+	int x_diff = 3;
+	int y_diff = 3;
 
 	int astLeftBound = getX() + x_diff;
 	int astRightBound = getX() + getWidth() - x_diff;
@@ -56,9 +56,15 @@ bool GameObject::collision(GameObject* other) {
 		if (astTopBound <= rockettop && rockettop <= astBottomBound) {
 			return true;
 		}
+		if (astTopBound >= rockettop && rocketbottom >= astTopBound) {
+			return true;
+		}
 	}
-	else if (astRightBound <= rocketright && rocketright <= astRightBound) {
-		if (astTopBound <= rocketbottom && rocketbottom <= astBottomBound) {
+	else if (astLeftBound <= rocketright && rocketright <= astRightBound) {
+		if (astTopBound <= rockettop && rockettop <= astBottomBound) {
+			return true;
+		}
+		if (astTopBound >= rocketbottom && rocketbottom >= astBottomBound) {
 			return true;
 		}
 	}
