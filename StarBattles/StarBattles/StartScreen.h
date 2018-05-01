@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_mixer.h"
 #include "InputManager.h"
 #include <iostream>
 
@@ -17,7 +18,6 @@ private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	InputManager* inputmanager;
-
 
 
 

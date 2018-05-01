@@ -13,8 +13,10 @@ list<GameObject*> asteroids;
 int numAsteroids = 0;
 int maxAsteroids = 10;
 
-// Sound
+// Music & sound effects resources
 Mix_Music *backgroundMusic = NULL;
+Mix_Chunk *lazerSound = NULL;
+Mix_Chunk *explosionSound = NULL;
 
 
 //Lazer
@@ -55,6 +57,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 
 	// init audio pointers
 	backgroundMusic = Mix_LoadMUS("levelSong.wav");
+	lazerSound = Mix_LoadWAV("lazer.wav");
+	explosionSound = Mix_LoadWAV("explosion.wav");
+
 	if (backgroundMusic == NULL) {
 		printf("Failed to load dope music! SDL_mixer Error: %s\n", Mix_GetError());
 	}
@@ -91,7 +96,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		rocketlives.push_back(new Rocketship(renderer, x, 0));
 	}
 
-	// Play the tunes
+	// Play the tunes once everything's set up
 	Mix_PlayMusic(backgroundMusic, -1);
 	
 	
@@ -128,6 +133,7 @@ void Game::update() {
 			firedLast = true;
 			if (ammo > 0) {
 				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 500);
+				Mix_PlayChannel(-1, lazerSound, 0); // play lazer generation sound once created
 				allLazers.push_back(majorLazer);
 				ammo--;
 			}
@@ -153,6 +159,7 @@ void Game::update() {
 			if ((*it)->collision(*la)) {
 				(*it)->reset();
 				collisionFlag = true;
+				Mix_PlayChannel(-1, explosionSound, 1);
 				break;
 			}
 			it++;
@@ -249,9 +256,13 @@ void Game::clean() {
 	SDL_DestroyWindow(window);
 	// Free the music data
 	Mix_FreeMusic(backgroundMusic);
+	Mix_FreeChunk(lazerSound);
+	Mix_FreeChunk(explosionSound);
+	lazerSound = NULL;
+	explosionSound = NULL;
 	backgroundMusic = NULL;
 	SDL_DestroyRenderer(renderer);
-	Mix_Quit();
+	Mix_Quit(); // closes audio engine
 	SDL_Quit();
 	cout << "Game Cleared" << endl;
 }

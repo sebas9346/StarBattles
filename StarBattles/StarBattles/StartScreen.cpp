@@ -10,6 +10,8 @@ SDL_Texture* spacew;
 SDL_Rect srcR, destR;
 SDL_Rect srcS, destS;   //space rectangle
 
+
+
 using namespace std;
 StartScreen::StartScreen()
 {
@@ -26,6 +28,9 @@ void StartScreen::init(const char* title, int xpos, int ypos, int width, int hei
 	if (fullscreen == true) {
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
+
+
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		cout << "Subsystems Initialized!" << endl;
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
@@ -56,6 +61,7 @@ void StartScreen::init(const char* title, int xpos, int ypos, int width, int hei
 	SDL_Surface* tmpSurface3 = IMG_Load("assets/spacewhite.png");
 	spacew = SDL_CreateTextureFromSurface(renderer, tmpSurface3);
 
+
 	SDL_FreeSurface(tmpSurface);
 	SDL_FreeSurface(tmpSurface1);
 	SDL_FreeSurface(tmpSurface2);
@@ -85,6 +91,7 @@ void StartScreen::updates() {
 	if (inputmanager->KeyDown(SDL_SCANCODE_SPACE)) {
 		hitspace = true;
 		cout << "true" << endl;
+
 	}
 	//cnt++;
 	//if (hitspace) {

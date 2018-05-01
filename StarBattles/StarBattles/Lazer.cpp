@@ -4,7 +4,6 @@
 Lazer::Lazer(SDL_Renderer * ren, int x, int y) {
 	renderer = ren;
 	objTexture = TextureManager::LoadTexture("assets/Laser.png", renderer);
-
 	xpos = x; 
 	ypos = y;
 }

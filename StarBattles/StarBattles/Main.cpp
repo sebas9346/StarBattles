@@ -26,9 +26,12 @@ int main(int argc, char * argv[])
 	int frameTime;
 
 	
+
+	
 	//Ronald's code
 	startScreen = new StartScreen();
 	startScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+
 
 	while (!startScreen->ishitspace()) {
 
