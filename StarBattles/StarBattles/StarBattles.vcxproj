@@ -156,7 +156,9 @@
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\FAsteroid.png" />
     <Image Include="assets\fontstar.png" />
+    <Image Include="assets\HAsteroid.png" />
     <Image Include="assets\Laser.png" />
     <Image Include="assets\Player.png" />
     <Image Include="assets\Rocket.png" />

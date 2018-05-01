@@ -15,6 +15,10 @@ public:
 
 private:
 	int speed;
+	int ani = 0;
+	int spr_update_count = 0;
+	int rotationspeed;
+	
 
 };
 
