@@ -13,6 +13,10 @@ list<GameObject*> asteroids;
 int numAsteroids = 0;
 int maxAsteroids = 10;
 
+// Sound
+Mix_Music *backgroundMusic = NULL;
+
+
 //Lazer
 Lazer* majorLazer;
 Rocketship* rocket;
@@ -36,6 +40,25 @@ Game::~Game(){
 void Game::init(const char* title, int xpos, int ypos, int width, int height,bool fullscreen) {
 	
 	int flags = 0;
+
+	// init audio mixer
+	if ((SDL_Init(SDL_INIT_AUDIO)) < 0) {
+
+		printf("Could not initialize audio properly. SDL Error: %s\n", SDL_GetError());
+	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+	}
+
+
+	// init audio pointers
+	backgroundMusic = Mix_LoadMUS("levelSong.wav");
+	if (backgroundMusic == NULL) {
+		printf("Failed to load dope music! SDL_mixer Error: %s\n", Mix_GetError());
+	}
+
 	if (fullscreen == true) {
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
@@ -68,6 +91,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		rocketlives.push_back(new Rocketship(renderer, x, 0));
 	}
 
+	// Play the tunes
+	Mix_PlayMusic(backgroundMusic, -1);
 	
 	
 
@@ -222,7 +247,11 @@ void Game::render() {
 }
 void Game::clean() {
 	SDL_DestroyWindow(window);
+	// Free the music data
+	Mix_FreeMusic(backgroundMusic);
+	backgroundMusic = NULL;
 	SDL_DestroyRenderer(renderer);
+	Mix_Quit();
 	SDL_Quit();
 	cout << "Game Cleared" << endl;
 }

@@ -3,9 +3,11 @@
 #include <ctime>
 #include "StartScreen.h"
 #include "Game.h"
+
 using namespace std;
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
+
 
 Game *game = nullptr;
 StartScreen *startScreen = nullptr;
@@ -27,7 +29,6 @@ int main(int argc, char * argv[])
 	//Ronald's code
 	startScreen = new StartScreen();
 	startScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
-	//
 
 	while (!startScreen->ishitspace()) {
 
