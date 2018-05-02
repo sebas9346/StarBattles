@@ -57,7 +57,7 @@ void Asteroid::reset() {
 	else {
 		objTexture = TextureManager::LoadTexture("assets/HAsteroid.png", renderer);
 	}
-	xpos = rand() % 700;
+	xpos = rand() % 800;
 	ypos = 0;
 }
 
