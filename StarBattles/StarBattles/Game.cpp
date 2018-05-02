@@ -3,6 +3,7 @@
 #include "Lazer.h"
 #include "Asteroid.h"
 #include "LazerCharge.h"
+#include "PowerUp.h"
 #include <time.h>
 
 #include <iterator>
@@ -26,6 +27,9 @@ Lazer* majorLazer;
 Rocketship* rocket;
 LazerCharge* lazerChargeGUI;
 int lives = 3;
+
+//PowerUp
+PowerUp* powerUpGo;
 
 //clock
 clock_t startCharge;
@@ -103,7 +107,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	}
 
 	lazerChargeGUI = new LazerCharge(renderer);
-	fullCharge = true;
+	powerUpGo = new PowerUp(renderer);
+	fullCharge = true; // check if ammo is at full
 
 	// Play the tunes once everything's set up
 	Mix_PlayMusic(backgroundMusic, -1);
@@ -138,7 +143,6 @@ void Game::update() {
 			rocket->moveLeft();
 		}
 
-		//delete ammo
 		if (inputmanager->KeyDown(SDL_SCANCODE_SPACE) && !firedLast) {
 			firedLast = true;
 			if (lazerChargeGUI->howManyCharges() > 0) {
@@ -161,6 +165,8 @@ void Game::update() {
 
 	rocket->update(); // update rocket
 	lazerChargeGUI->update(); // update lazerChargeGUI
+	powerUpGo->update(); //update PowerUp
+
 	if ((clock() - startCharge) / CLOCKS_PER_SEC > 2) {
 		lazerChargeGUI->addCharge();
 		if (lazerChargeGUI->howManyCharges() == 4) {
@@ -189,22 +195,29 @@ void Game::update() {
 			it++;
 
 		}
+		if ((*la)->collision(powerUpGo)) {
+			powerUpGo->reset();
+			collisionFlag = true;
+		}
+
 		if (collisionFlag) {
 			allLazers.remove(*la);
 			(*la)->reset();
 		}
-		
+	}
 
-		
-		//(*la)->update();
-		//some code here for @Victor for asteroid collision
+	if (powerUpGo->collision(rocket)) {
+		rocket->set_power();
+		powerUpGo->reset();
 	}
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
 
 		(*it)->update();
 		if ((*it)->collision(rocket)) {
-			rocket->isDead();
+			if (!rocket->is_powered()) {
+				rocket->isDead();
+			}
 			(*it)->reset();
 			rocket->reset();
 		}
@@ -215,6 +228,10 @@ void Game::update() {
 		else {
 		it++;
 		}
+	}
+
+	if (powerUpGo->isOutOfBounds()) {
+		powerUpGo->reset();
 	}
 
 	
@@ -261,6 +278,7 @@ void Game::render() {
 	SDL_RenderCopy(renderer, backGround, NULL, NULL);
 	rocket->render();
 	lazerChargeGUI->render();
+	powerUpGo->render();
 	
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); it++) {

@@ -12,6 +12,7 @@ Rocketship::Rocketship(SDL_Renderer *ren, int x, int y)
 	score = 0;
 	lives = 3;
 	killed = false;
+	poweredUp = false;
 }
 
 //Determine if game has ended when rocket gets hit by 
@@ -63,19 +64,47 @@ void Rocketship::reset() {
 
 //Method to update the rocket
 void Rocketship::update(void) {
+
+	if (powerStart != NULL && (clock() - powerStart) / CLOCKS_PER_SEC >= 10) {
+		powerStart = NULL;
+		poweredUp = false;
+		powerani = 0;
+	}
 	
-	if (ani < 64 * 5 && pass == 6) {
+	if (poweredUp) {
+		if ((clock() - powerStart) / CLOCKS_PER_SEC >= 7) {
+			if (timeoutSoon == 20) {
+				if (powerani == 64) {
+					powerani = 0;
+					timeoutSoon = 0;
+				}
+				else {
+					powerani = 64;
+					timeoutSoon = 0;
+				}
+			}
+			timeoutSoon++;
+		}
+		else {
+			powerani = 64;
+		}
+	}
+
+	if (ani < 64 * 5 && pass == 15) {
 		ani += 64;
 		pass = 0;
 	}
-	else if(ani >= 64*5) {
+	else if (ani >= 64 * 5 && pass == 15) {
 		ani = 0;
+		pass = 0;
 	}
+	
+
 	pass += 1;
 	srcRect.w = 64;
 	srcRect.h = 64;
 	srcRect.x = ani;
-	srcRect.y = 0;
+	srcRect.y = powerani;
 	
 	destRect.x = xpos;
 	destRect.y = ypos;
@@ -83,6 +112,16 @@ void Rocketship::update(void) {
 	destRect.h = 64;
 }
 
+
 Rocketship::~Rocketship() {}
+
+bool Rocketship::is_powered() {
+	return poweredUp;
+}
+
+void Rocketship::set_power() {
+	poweredUp = true;
+	powerStart = clock();
+}
 
 

@@ -1,6 +1,6 @@
 #include "Asteroid.h"
 #include <random>
-//test
+
 using namespace std;
 Asteroid::Asteroid(SDL_Renderer* ren)
 {
@@ -12,7 +12,7 @@ Asteroid::Asteroid(SDL_Renderer* ren)
 	else {
 		objTexture = TextureManager::LoadTexture("assets/HAsteroid.png", renderer);
 	}
-	rotationspeed = rand() % 25 + 1;
+	rotationspeed = rand() % 20 + 1;
 	speed = 1+(rand() % 7);
 	xpos = rand()%800;
 	ypos = 0;
@@ -28,8 +28,9 @@ void Asteroid::update() {
 		ani += 64;
 		spr_update_count = 0;
 	}
-	else if (ani >= 64 * 7) {
+	else if (ani >= 64 * 7 && spr_update_count == rotationspeed) {
 		ani = 0;
+		spr_update_count = 0;
 	}
 
 	ypos = ypos + speed;

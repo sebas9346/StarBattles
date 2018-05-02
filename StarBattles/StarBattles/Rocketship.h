@@ -11,6 +11,7 @@
 #define ROCKETSHIP_H
 
 #include "GameObject.h"
+#include "time.h"
 
 class Rocketship : public GameObject
 {
@@ -28,12 +29,20 @@ public:
 	void update();
 	void reset();
 
+	//powerup
+	bool is_powered();
+	void set_power();
+
 protected:
 	bool killed; //true or false value to determine end of game
+	bool poweredUp;
 	int lives; //number of lives
 	int score;   //score keeper
 	int ani = 0;
 	int pass = 0;
+	int timeoutSoon = 0;
+	int powerani = 0;
+	clock_t powerStart = NULL;
 };
 #endif
 

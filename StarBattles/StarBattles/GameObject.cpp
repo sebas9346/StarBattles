@@ -17,7 +17,7 @@ void GameObject::render() {
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }
 bool GameObject::isOutOfBounds() {
-	if (ypos > 900 || ypos < -1) {
+	if (ypos > 900) {
 		return true;
 	}
 	return false;
