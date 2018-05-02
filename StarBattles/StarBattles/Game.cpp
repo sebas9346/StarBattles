@@ -2,6 +2,8 @@
 #include "Rocketship.h"
 #include "Lazer.h"
 #include "Asteroid.h"
+#include "LazerCharge.h"
+#include <time.h>
 
 #include <iterator>
 #include <list>
@@ -22,9 +24,13 @@ Mix_Chunk *explosionSound = NULL;
 //Lazer
 Lazer* majorLazer;
 Rocketship* rocket;
+LazerCharge* lazerChargeGUI;
 int lives = 3;
 
-int ammo = 50; //amount of lasers allowed
+//clock
+clock_t startCharge;
+bool fullCharge;
+
 bool firedLast = false; //keep track of spacebar keystroke
 int lazerShift = 0; //to center the firing of lazers
 
@@ -96,6 +102,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		rocketlives.push_back(new Rocketship(renderer, x, 0));
 	}
 
+	lazerChargeGUI = new LazerCharge(renderer);
+	fullCharge = true;
+
 	// Play the tunes once everything's set up
 	Mix_PlayMusic(backgroundMusic, -1);
 	
@@ -129,16 +138,21 @@ void Game::update() {
 			rocket->moveLeft();
 		}
 
+		//delete ammo
 		if (inputmanager->KeyDown(SDL_SCANCODE_SPACE) && !firedLast) {
 			firedLast = true;
-			if (ammo > 0) {
+			if (lazerChargeGUI->howManyCharges() > 0) {
 				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 500);
 				Mix_PlayChannel(-1, lazerSound, 0); // play lazer generation sound once created
 				allLazers.push_back(majorLazer);
-				ammo--;
+				lazerChargeGUI->subtractCharge();
+				if (fullCharge) {
+					fullCharge = false;
+					startCharge = clock();
+				}
 			}
-			else
-				ammo = 0; //game over..chill this is a place holder...need @Ronald's code!		
+			//else
+				//ammo = 0; //game over..chill this is a place holder...need @Ronald's code!		
 		}
 		else if (!(inputmanager->KeyDown(SDL_SCANCODE_SPACE)) && firedLast) {
 			firedLast = false;
@@ -146,6 +160,16 @@ void Game::update() {
 	}
 
 	rocket->update(); // update rocket
+	lazerChargeGUI->update(); // update lazerChargeGUI
+	if ((clock() - startCharge) / CLOCKS_PER_SEC > 2) {
+		lazerChargeGUI->addCharge();
+		if (lazerChargeGUI->howManyCharges() == 4) {
+			fullCharge = true;
+		}
+		else {
+			startCharge = clock();
+		}
+	}
 
 	//lazer update
 
@@ -236,6 +260,7 @@ void Game::render() {
 	//add stuff to render
 	SDL_RenderCopy(renderer, backGround, NULL, NULL);
 	rocket->render();
+	lazerChargeGUI->render();
 	
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); it++) {

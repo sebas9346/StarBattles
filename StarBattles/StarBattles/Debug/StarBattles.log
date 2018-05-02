@@ -1,3 +1,3 @@
 ﻿  Game.cpp
-c:\users\nkp\desktop\starbattles\starbattles\starbattles\game.cpp(198): warning C4018: '<': signed/unsigned mismatch
-  StarBattles.vcxproj -> C:\Users\NKP\Desktop\StarBattles\StarBattles\Debug\StarBattles.exe
+c:\users\vizio\desktop\starbattles\starbattles\starbattles\game.cpp(223): warning C4018: '<': signed/unsigned mismatch
+  StarBattles.vcxproj -> C:\Users\Vizio\Desktop\StarBattles\StarBattles\Debug\StarBattles.exe

@@ -134,6 +134,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LazerCharge.cpp" />
     <ClCompile Include="Lazer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Rocketship.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LazerCharge.h" />
     <ClInclude Include="Layout.h" />
     <ClInclude Include="Lazer.h" />
     <ClInclude Include="Rocketship.h" />
@@ -159,7 +161,8 @@
     <Image Include="assets\FAsteroid.png" />
     <Image Include="assets\fontstar.png" />
     <Image Include="assets\HAsteroid.png" />
-    <Image Include="assets\Laser.png" />
+    <Image Include="assets\Lazer.png" />
+    <Image Include="assets\LazerCharge.png" />
     <Image Include="assets\Player.png" />
     <Image Include="assets\Rocket.png" />
     <Image Include="assets\space.png" />

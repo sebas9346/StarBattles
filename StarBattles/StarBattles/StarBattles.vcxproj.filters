@@ -42,6 +42,9 @@
     <ClCompile Include="StartScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LazerCharge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
@@ -75,6 +78,9 @@
     <ClInclude Include="StartScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LazerCharge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\Player.png">
@@ -95,13 +101,16 @@
     <Image Include="assets\Rocket.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\Laser.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="assets\FAsteroid.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\HAsteroid.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Lazer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\LazerCharge.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
