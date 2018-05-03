@@ -53,7 +53,7 @@ void PowerUp::reset() {
 		ypos = -2500;
 	}
 	else if (id == 0) {
-		ypos = 0;
+		ypos = -5000;
 	}
 }
 
