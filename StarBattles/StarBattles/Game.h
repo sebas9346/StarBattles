@@ -21,9 +21,11 @@ class Game{
 		void compareScores();
 		bool running() { return isRunning; };
 		int getHighScore();
+		int getCurrentScore();
 
 	private:
 		int highScore;
+		int currentScore;
 		bool isRunning;
 		SDL_Window *window;
 		SDL_Renderer *renderer;

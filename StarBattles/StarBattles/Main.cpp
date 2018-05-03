@@ -17,6 +17,7 @@ EndScreen * endScreen = nullptr;
 
 bool start = false;
 int globalHS;
+int globalCS;
 
 int starposx = 0;
 int starposy = 0;
@@ -74,11 +75,11 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	//get the high score
-	globalHS = game->getHighScore();
+	globalHS = game->getHighScore(); //get the high score
+	globalCS = game->getCurrentScore(); //get the current score
 
 	endScreen = new EndScreen();
-	endScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false, globalHS);
+	endScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false, globalHS, globalCS);
 	while (!game->running()) {
 		frameStart = SDL_GetTicks();
 		endScreen->handleEvents();

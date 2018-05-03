@@ -18,26 +18,33 @@ private:
 	//ronald start screen object no debating 
 	bool hitspace = false;
 	char const * high_score;
+	char const * current_score;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	InputManager* inputmanager;
 
 	SDL_Texture* starfield;
-	SDL_Texture* highScoreTex;
 	SDL_Texture* gameOverTex;
-	SDL_Texture* spacew;
-	SDL_Texture*outScoreTex;
-	SDL_Rect srcR, destR;
 	SDL_Rect srcS, destS;   //space rectangle
+
+	//high score textures
+	SDL_Texture* highScoreTex;
+	SDL_Texture* outScoreTex;
+	SDL_Rect srcR, destR;
 	SDL_Rect destScore;
 
-
+	//current score textures
+	SDL_Texture* currentScoreTex;
+	SDL_Texture* yourScoreTex;
+	SDL_Rect srcC, destC;
+	SDL_Rect destCurrent;
+	
 
 public:
 	EndScreen();
 	~EndScreen();
 
-	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore);
+	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore, int currentScore);
 
 	void handleEvents();
 	void updates(); //Individual class update functions will go here!!

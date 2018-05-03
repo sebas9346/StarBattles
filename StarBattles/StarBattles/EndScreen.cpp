@@ -14,9 +14,12 @@ EndScreen::~EndScreen()
 {
 }
 
-void EndScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore) {
+void EndScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore, int currentScore) {
 	string temp = to_string(highScore); //makes the high score a string value for output to window
 	high_score = temp.c_str();
+
+	string temp2 = to_string(currentScore); //makes the current score a string value for output to window
+	current_score = temp2.c_str();
 
 	int flags = 0;
 	if (fullscreen == true) {
@@ -68,6 +71,12 @@ void EndScreen::init(const char* title, int xpos, int ypos, int width, int heigh
 	SDL_Surface *outScore = TTF_RenderText_Solid(times, high_score, blue);
 	outScoreTex = SDL_CreateTextureFromSurface(renderer, outScore);
 	SDL_QueryTexture(outScoreTex, NULL, NULL, &destScore.w, &destScore.h);
+
+	//FONT FOR CURRENT SCORE CONFIGURATION
+	SDL_Surface *outCurrentScore = TTF_RenderText_Solid(times, current_score, blue);
+	yourScoreTex = SDL_CreateTextureFromSurface(renderer, outCurrentScore);
+	SDL_QueryTexture(yourScoreTex, NULL, NULL, &destCurrent.w, &destCurrent.h);
+
 }
 
 void EndScreen::handleEvents() {
@@ -121,6 +130,10 @@ void EndScreen::updates() {
 	destScore.x = 400;
 	destScore.y = 280;
 
+	//yourScoreTex
+	destCurrent.x = 400;
+	destCurrent.y = 380;
+
 }
 
 void EndScreen::renders() {
@@ -130,6 +143,7 @@ void EndScreen::renders() {
 	SDL_RenderCopy(renderer, highScoreTex, &srcR, &destR);
 	SDL_RenderCopy(renderer, gameOverTex, &srcS, &destS);
 	SDL_RenderCopy(renderer, outScoreTex, NULL, &destScore);
+	SDL_RenderCopy(renderer, yourScoreTex, NULL, &destCurrent);
 
 	SDL_RenderPresent(renderer);
 }

@@ -252,6 +252,7 @@ void Game::update() {
 		cout << rocketlives.size() << endl;
 
 		if (rocket->getLife() == 0) {
+			currentScore = rocket->getScore(); //get the current score
 			compareScores(); //compare previous score for high score
 			isRunning = false;  //end the game
 		}
@@ -325,4 +326,9 @@ void Game::compareScores() {
 //Get the high score
 int Game::getHighScore() {
 	return highScore;
+}
+
+//Get the current score
+int Game::getCurrentScore() {
+	return currentScore;
 }
