@@ -79,13 +79,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\dev\SDL2_image-2.0.1\include;..\..\dev\SDL_ttf-2.0.6\include;..\..\dev\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dev\SDL2_ttf-devel-2.0.14-VC\SDL2_ttf-2.0.14\include;..\..\dev\SDL2_image-2.0.1\include;..\..\dev\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_image.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>..\..\dev\SDL2_image-2.0.1\lib\x86;..\..\dev\SDL_ttf-2.0.6\lib;..\..\dev\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\dev\SDL2_ttf-devel-2.0.14-VC\SDL2_ttf-2.0.14\lib\x86;..\..\dev\SDL2_image-2.0.1\lib\x86;..\..\dev\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="EndScreen.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -144,10 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
-    <None Include="SDL_ttf.dll" />
+    <None Include="SDL2_ttf.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="EndScreen.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputManager.h" />

@@ -19,7 +19,12 @@ private:
 	SDL_Renderer *renderer;
 	InputManager* inputmanager;
 
-
+	SDL_Texture* starfield;
+	SDL_Texture* fontstar;
+	SDL_Texture* spacer;
+	SDL_Texture* spacew;
+	SDL_Rect srcR, destR;
+	SDL_Rect srcS, destS;   //space rectangle
 
 
 public:

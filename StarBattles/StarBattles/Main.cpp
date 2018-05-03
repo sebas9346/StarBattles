@@ -2,15 +2,18 @@
 #include <SDL.h>
 #include <ctime>
 #include "StartScreen.h"
+#include "EndScreen.h"
 #include "Game.h"
+#include "Layout.h"
 
 using namespace std;
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+//const int WINDOW_WIDTH = 800;
+//const int WINDOW_HEIGHT = 600;
 
 
 Game *game = nullptr;
 StartScreen *startScreen = nullptr;
+EndScreen * endScreen = nullptr;
 
 bool start = false;
 
@@ -69,6 +72,25 @@ int main(int argc, char * argv[])
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
+	endScreen = new EndScreen();
+	endScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+	while (!game->running()) {
+		frameStart = SDL_GetTicks();
+		endScreen->handleEvents();
+		endScreen->updates();
+		endScreen->renders();
+
+
+
+
+		frameTime = SDL_GetTicks() - frameStart;
+
+		if (frameDelay > frameTime)
+		{
+			SDL_Delay(frameDelay - frameTime);
+		}
+	}
 	game->clean();
+	endScreen->cleans();
 	return 0;
 }

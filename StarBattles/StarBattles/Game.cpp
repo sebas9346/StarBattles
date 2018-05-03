@@ -265,6 +265,9 @@ void Game::update() {
 		tmp->setX(1000);
 		rocketlives.remove(tmp);
 		cout << rocketlives.size()<<endl;
+		if (rocket->getLife() == 0) {
+			isRunning = false;
+		}
 	}
 	for (list<GameObject*>::iterator it = rocketlives.begin(); it != rocketlives.end(); ++it) {
 		(*it)->update();
