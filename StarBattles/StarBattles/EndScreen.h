@@ -10,12 +10,14 @@
 #include "InputManager.h"
 #include "SDL_ttf.h"
 #include <iostream>
+#include <string>
 
 class EndScreen
 {
 private:
 	//ronald start screen object no debating 
 	bool hitspace = false;
+	char const * high_score;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	InputManager* inputmanager;
@@ -35,7 +37,7 @@ public:
 	EndScreen();
 	~EndScreen();
 
-	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+	void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore);
 
 	void handleEvents();
 	void updates(); //Individual class update functions will go here!!

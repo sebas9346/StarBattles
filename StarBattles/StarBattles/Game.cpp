@@ -41,7 +41,6 @@ bool fullCharge;
 
 bool firedLast = false; //keep track of spacebar keystroke
 int lazerShift = 0; //to center the firing of lazers
-int highScore; //keep track of the high score
 
 SDL_Texture* backGround;
 
@@ -321,4 +320,9 @@ void Game::compareScores() {
 	ofstream writeFile("score.txt");
 	writeFile << highScore << endl;
 	writeFile.close();
+}
+
+//Get the high score
+int Game::getHighScore() {
+	return highScore;
 }

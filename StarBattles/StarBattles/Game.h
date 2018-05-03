@@ -20,8 +20,10 @@ class Game{
 		void clean();
 		void compareScores();
 		bool running() { return isRunning; };
+		int getHighScore();
 
 	private:
+		int highScore;
 		bool isRunning;
 		SDL_Window *window;
 		SDL_Renderer *renderer;

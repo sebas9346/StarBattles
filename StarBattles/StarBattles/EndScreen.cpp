@@ -14,7 +14,9 @@ EndScreen::~EndScreen()
 {
 }
 
-void EndScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+void EndScreen::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, int highScore) {
+	string temp = to_string(highScore); //makes the high score a string value for output to window
+	high_score = temp.c_str();
 
 	int flags = 0;
 	if (fullscreen == true) {
@@ -58,12 +60,14 @@ void EndScreen::init(const char* title, int xpos, int ypos, int width, int heigh
 	SDL_FreeSurface(tmpSurface2);
 	//SDL_FreeSurface(tmpSurface3);
 
-	//FONT STUFF
+	//FONT FOR HIGH SCORE CONFIGURATION
+	TTF_Init();
 	TTF_Font *times;
-	SDL_Color blue = { 0, 0, 255};
-	times = TTF_OpenFont("Times.ttf", 72);
-	SDL_Surface *outScore = TTF_RenderText_Solid(times, "IT WORKS!!", blue);
+	SDL_Color blue = { 242, 125, 53};
+	times = TTF_OpenFont("ARDESTINE.ttf", 72);
+	SDL_Surface *outScore = TTF_RenderText_Solid(times, high_score, blue);
 	outScoreTex = SDL_CreateTextureFromSurface(renderer, outScore);
+	SDL_QueryTexture(outScoreTex, NULL, NULL, &destScore.w, &destScore.h);
 }
 
 void EndScreen::handleEvents() {
@@ -114,11 +118,8 @@ void EndScreen::updates() {
 	destR.h = srcR.h / 2;
 	
 	//outScoretext
-
-	destScore.x = 50;
-	destScore.y = 400;
-	destScore.h = 64;
-	destScore.w = 128;
+	destScore.x = 400;
+	destScore.y = 280;
 
 }
 
@@ -135,6 +136,7 @@ void EndScreen::renders() {
 void EndScreen::cleans() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	TTF_Quit();
 	SDL_Quit();
 	cout << "Game Cleared" << endl;
 }
