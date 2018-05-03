@@ -52,9 +52,21 @@ void Rocketship::moveRight(void) {
 	else
 		xpos += 5; //changing x pos by 5
 }
+
 int Rocketship::getLife(void) {
 	return lives;
 }
+
+void Rocketship::incLife(void) {
+	if (lives < 3) {
+		lives++;
+	}
+	else {
+		this->isSpecialScore();
+	}
+	std::cout << lives << std::endl;
+}
+
 void Rocketship::reset() {
 	/*xpos = -5;
 	ypos = -5;

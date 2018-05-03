@@ -2,10 +2,17 @@
 #include <random>
 
 using namespace std;
-PowerUp::PowerUp(SDL_Renderer* ren)
+PowerUp::PowerUp(SDL_Renderer* ren, int type)
 {
 	renderer = ren;
-	objTexture = TextureManager::LoadTexture("assets/PowerUp.png", renderer);
+	if (type == 1) {
+		objTexture = TextureManager::LoadTexture("assets/PowerUp.png", renderer);
+		id = 1;
+	}
+	else if (type == 0) {
+		objTexture = TextureManager::LoadTexture("assets/Heart.png", renderer);
+		id = 0;
+	}
 	speed = 3;
 	xpos = rand() % 800;
 	ypos = 0;
@@ -42,5 +49,14 @@ void PowerUp::update() {
 void PowerUp::reset() {
 	spr_update_count = 0;
 	xpos = rand() % 800;
-	ypos = -2500;
+	if (id == 1) {
+		ypos = -2500;
+	}
+	else if (id == 0) {
+		ypos = 0;
+	}
+}
+
+int PowerUp::type_id() {
+	return id;
 }

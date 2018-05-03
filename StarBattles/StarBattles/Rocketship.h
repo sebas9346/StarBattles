@@ -22,6 +22,7 @@ public:
 	void isScore();
 	void isSpecialScore();
 	int getLife();
+	void incLife();
 
 	//motion
 	void moveRight();

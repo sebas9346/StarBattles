@@ -34,6 +34,7 @@ list<GameObject*> rocketlives;
 
 //PowerUp
 PowerUp* powerUpGo;
+PowerUp* heartGo;
 
 //clock
 clock_t startCharge;
@@ -92,7 +93,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	soundEngine->playBGM();
 
 	lazerChargeGUI = new LazerCharge(renderer);
-	powerUpGo = new PowerUp(renderer);
+	powerUpGo = new PowerUp(renderer, 1);
+	heartGo = new PowerUp(renderer, 0);
 	fullCharge = true; // check if ammo is at full
 
 	TTF_Init();
@@ -161,7 +163,8 @@ void Game::update() {
 
 	rocket->update(); // update rocket
 	lazerChargeGUI->update(); // update lazerChargeGUI
-	powerUpGo->update(); //update PowerUp
+	powerUpGo->update(); // update PowerUp
+	heartGo->update(); // update heart
 
 	if ((clock() - startCharge) / CLOCKS_PER_SEC > 2) {
 		lazerChargeGUI->addCharge();
@@ -191,8 +194,14 @@ void Game::update() {
 			it++;
 
 		}
+
 		if ((*la)->collision(powerUpGo)) {
 			powerUpGo->reset();
+			collisionFlag = true;
+		}
+
+		if ((*la)->collision(heartGo)) {
+			heartGo->reset();
 			collisionFlag = true;
 		}
 
@@ -205,6 +214,17 @@ void Game::update() {
 	if (powerUpGo->collision(rocket)) {
 		rocket->set_power();
 		powerUpGo->reset();
+	}
+
+	if (heartGo->collision(rocket)) {
+		if (rocket->getLife() < 3) {
+			int x = 550 + (rocket->getLife() * 64);
+			Rocketship* rockettemp = new Rocketship(renderer, x, 0);
+			rockettemp->render();
+			rocketlives.push_back(rockettemp);
+		}
+		rocket->incLife();
+		heartGo->reset();
 	}
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
@@ -230,6 +250,10 @@ void Game::update() {
 		powerUpGo->reset();
 	}
 
+	if (heartGo->isOutOfBounds()) {
+		heartGo->reset();
+	}
+
 	
 	//Asteroid control
 	while(asteroids.size() < maxAsteroids) {
@@ -238,12 +262,15 @@ void Game::update() {
 			
 	}
 
-	if (rocket->getLife() < lives) {
+	if (rocket->getLife() != lives) {
 		//cout << "Number of lives left: ";
+		if (lives > rocket->getLife()) {
+			GameObject* tmp = rocketlives.back();
+			tmp->setX(1000);
+			rocketlives.pop_back();
+		}
 		lives = rocket->getLife();
-		GameObject* tmp = rocketlives.front();
-		tmp->setX(1000);
-		rocketlives.remove(tmp);
+		
 		cout << rocketlives.size() << endl;
 
 		if (rocket->getLife() == 0) {
@@ -277,6 +304,7 @@ void Game::render() {
 	rocket->render();
 	lazerChargeGUI->render();
 	powerUpGo->render();
+	heartGo->render();
 	SDL_RenderCopy(renderer, currScoreTex, NULL, &destCurrScore);
 	
 
