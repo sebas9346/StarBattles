@@ -37,7 +37,7 @@ private:
 	SDL_Texture* currentScoreTex;
 	SDL_Texture* yourScoreTex;
 	SDL_Rect srcC, destC;
-	SDL_Rect destCurrent;
+	SDL_Rect destCurrent;  
 	
 
 public:
