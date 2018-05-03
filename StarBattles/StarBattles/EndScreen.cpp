@@ -2,7 +2,7 @@
 #include "InputManager.h"	
 
 
-
+Sound *endGameSounds = nullptr;
 
 using namespace std;
 EndScreen::EndScreen()
@@ -20,6 +20,8 @@ void EndScreen::init(const char* title, int xpos, int ypos, int width, int heigh
 
 	string temp2 = to_string(currentScore); //makes the current score a string value for output to window
 	current_score = temp2.c_str();
+
+	endGameSounds = new Sound();
 
 	int flags = 0;
 	if (fullscreen == true) {
@@ -41,8 +43,9 @@ void EndScreen::init(const char* title, int xpos, int ypos, int width, int heigh
 			cout << "Renderer created" << endl;
 		}
 		inputmanager = InputManager::Instance();
-	}
 
+	}
+	endGameSounds->playEnd();
 
 	//Creating texture
 	SDL_Surface* tmpSurface = IMG_Load("assets/Starfield.png");
@@ -54,20 +57,21 @@ void EndScreen::init(const char* title, int xpos, int ypos, int width, int heigh
 	SDL_Surface* tmpSurface2 = IMG_Load("assets/GameOver.png");
 	gameOverTex = SDL_CreateTextureFromSurface(renderer, tmpSurface2);
 
-	//SDL_Surface* tmpSurface3 = IMG_Load("assets/spacewhite.png");
-	//spacew = SDL_CreateTextureFromSurface(renderer, tmpSurface3);
+	SDL_Surface* tmpSurface3 = IMG_Load("assets/CurrentScore.png");
+	spacew = SDL_CreateTextureFromSurface(renderer, tmpSurface3);
 
 
 	SDL_FreeSurface(tmpSurface);
 	SDL_FreeSurface(tmpSurface1);
 	SDL_FreeSurface(tmpSurface2);
-	//SDL_FreeSurface(tmpSurface3);
+	SDL_FreeSurface(tmpSurface3);
 
 	//FONT FOR HIGH SCORE CONFIGURATION
 	TTF_Init();
 	TTF_Font *times;
 	SDL_Color blue = { 242, 125, 53};
 	times = TTF_OpenFont("ARDESTINE.ttf", 72);
+
 	SDL_Surface *outScore = TTF_RenderText_Solid(times, high_score, blue);
 	outScoreTex = SDL_CreateTextureFromSurface(renderer, outScore);
 	SDL_QueryTexture(outScoreTex, NULL, NULL, &destScore.w, &destScore.h);
@@ -131,8 +135,20 @@ void EndScreen::updates() {
 	destScore.y = 280;
 
 	//yourScoreTex
-	destCurrent.x = 400;
+	destCurrent.x = 500;
 	destCurrent.y = 380;
+
+
+	//curr tex image
+	srcCurrentTex.h = 76;
+	srcCurrentTex.w = 770;
+	srcCurrentTex.x = 0;
+	srcCurrentTex.y = 0;
+
+	destCurrentTex.x = 50;
+	destCurrentTex.y = 400;
+	destCurrentTex.h = srcCurrentTex.h / 2;
+	destCurrentTex.w = srcCurrentTex.w / 2;
 
 }
 
@@ -144,12 +160,14 @@ void EndScreen::renders() {
 	SDL_RenderCopy(renderer, gameOverTex, &srcS, &destS);
 	SDL_RenderCopy(renderer, outScoreTex, NULL, &destScore);
 	SDL_RenderCopy(renderer, yourScoreTex, NULL, &destCurrent);
+	SDL_RenderCopy(renderer, spacew, NULL, &destCurrentTex);
 
 	SDL_RenderPresent(renderer);
 }
 void EndScreen::cleans() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	endGameSounds->cleans();
 	TTF_Quit();
 	SDL_Quit();
 	cout << "Game Cleared" << endl;

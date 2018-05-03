@@ -77,6 +77,7 @@ int main(int argc, char * argv[])
 
 	globalHS = game->getHighScore(); //get the high score
 	globalCS = game->getCurrentScore(); //get the current score
+	game->clean();
 
 	endScreen = new EndScreen();
 	endScreen->init("StarBattles", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false, globalHS, globalCS);
@@ -96,7 +97,7 @@ int main(int argc, char * argv[])
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
-	game->clean();
+	
 	endScreen->cleans();
 	return 0;
 }

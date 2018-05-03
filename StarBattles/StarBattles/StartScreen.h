@@ -8,6 +8,7 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "InputManager.h"
+#include "Sound.h"
 #include <iostream>
 
 class StartScreen 

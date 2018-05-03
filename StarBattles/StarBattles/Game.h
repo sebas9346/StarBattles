@@ -6,6 +6,8 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "InputManager.h"
+#include "SDL_ttf.h"
+#include "Sound.h"
 #include <iostream>
 
 class Game{
@@ -24,9 +26,15 @@ class Game{
 		int getCurrentScore();
 
 	private:
+		SDL_Surface * currScore;
+		char const* current_score;
+		SDL_Color blue;
 		int highScore;
 		int currentScore;
 		bool isRunning;
+		TTF_Font *font;
+		SDL_Texture *currScoreTex;
+		SDL_Rect destCurrScore;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 		InputManager* inputmanager;

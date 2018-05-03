@@ -6,7 +6,7 @@
 
 
 
-
+Sound *menuEngine = nullptr;
 using namespace std;
 StartScreen::StartScreen()
 {
@@ -24,7 +24,7 @@ void StartScreen::init(const char* title, int xpos, int ypos, int width, int hei
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
 
-
+	menuEngine = new Sound();
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		cout << "Subsystems Initialized!" << endl;
@@ -56,6 +56,7 @@ void StartScreen::init(const char* title, int xpos, int ypos, int width, int hei
 	SDL_Surface* tmpSurface3 = IMG_Load("assets/spacewhite.png");
 	spacew = SDL_CreateTextureFromSurface(renderer, tmpSurface3);
 
+	menuEngine->playMenu();
 
 	SDL_FreeSurface(tmpSurface);
 	SDL_FreeSurface(tmpSurface1);
@@ -86,7 +87,7 @@ void StartScreen::updates() {
 	if (inputmanager->KeyDown(SDL_SCANCODE_SPACE)) {
 		hitspace = true;
 		cout << "true" << endl;
-
+		menuEngine->playSelect();
 	}
 	//cnt++;
 	//if (hitspace) {
@@ -147,6 +148,7 @@ void StartScreen::renders() {
 void StartScreen::cleans() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	menuEngine->cleans();
 	SDL_Quit();
 	cout << "Game Cleared" << endl;
 }

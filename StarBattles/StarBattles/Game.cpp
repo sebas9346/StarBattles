@@ -10,12 +10,8 @@
 #include <iterator>
 #include <list>
 
-using namespace std;
 
-// Music & sound effects resources
-Mix_Music *backgroundMusic = NULL;
-Mix_Chunk *lazerSound = NULL;
-Mix_Chunk *explosionSound = NULL;
+using namespace std;
 
 //Asteroids
 list<GameObject*> asteroids;
@@ -43,6 +39,7 @@ bool firedLast = false; //keep track of spacebar keystroke
 int lazerShift = 0; //to center the firing of lazers
 
 SDL_Texture* backGround;
+Sound *soundEngine = nullptr;
 
 Game::Game(){
 }
@@ -54,27 +51,7 @@ Game::~Game(){
 void Game::init(const char* title, int xpos, int ypos, int width, int height,bool fullscreen) {
 	
 	int flags = 0;
-
-	// init audio mixer
-	if ((SDL_Init(SDL_INIT_AUDIO)) < 0) {
-
-		printf("Could not initialize audio properly. SDL Error: %s\n", SDL_GetError());
-	}
-
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-	}
-
-
-	// init audio pointers
-	backgroundMusic = Mix_LoadMUS("levelSong.wav");
-	lazerSound = Mix_LoadWAV("lazer.wav");
-	explosionSound = Mix_LoadWAV("explosion.wav");
-
-	if (backgroundMusic == NULL) {
-		printf("Failed to load dope music! SDL_mixer Error: %s\n", Mix_GetError());
-	}
+	soundEngine = new Sound();
 
 	if (fullscreen == true) {
 		flags = SDL_WINDOW_FULLSCREEN;
@@ -107,13 +84,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 		int x =550 + (i * 64);
 		rocketlives.push_back(new Rocketship(renderer, x, 0));
 	}
+	// Play the tunes once everything's set up
+	soundEngine->playBGM();
 
 	lazerChargeGUI = new LazerCharge(renderer);
 	powerUpGo = new PowerUp(renderer);
 	fullCharge = true; // check if ammo is at full
 
-	// Play the tunes once everything's set up
-	Mix_PlayMusic(backgroundMusic, -1);
+	TTF_Init();
+	blue = { 242, 125, 53 };
+	font = TTF_OpenFont("ARDESTINE.ttf", 72);
+	
 	
 }
 
@@ -147,7 +128,7 @@ void Game::update() {
 			firedLast = true;
 			if (lazerChargeGUI->howManyCharges() > 0) {
 				majorLazer = new Lazer(renderer, rocket->getX() + lazerShift, 500);
-				Mix_PlayChannel(-1, lazerSound, 0); // play lazer generation sound once created
+				soundEngine->playLazer();
 				allLazers.push_back(majorLazer);
 				lazerChargeGUI->subtractCharge();
 				if (fullCharge) {
@@ -190,7 +171,7 @@ void Game::update() {
 				collisionFlag = true;
 				rocket->isScore(); //update the score by 1 point for every asteroid shot
 				//cout << rocket->getScore(); << endl;
-				Mix_PlayChannel(-1, explosionSound, 1);
+				soundEngine->playExplosion();
 				break;
 			}
 			it++;
@@ -261,6 +242,18 @@ void Game::update() {
 		(*it)->update();
 	}
 
+	//Score update on game screen
+	currentScore = rocket->getScore();
+	string temp = to_string(currentScore); //makes the current score a string value for output to window
+	current_score = temp.c_str();
+	SDL_Surface *outScore = TTF_RenderText_Solid(font, current_score, blue);
+	currScoreTex = SDL_CreateTextureFromSurface(renderer, outScore);
+	SDL_QueryTexture(currScoreTex, NULL, NULL, &destCurrScore.w, &destCurrScore.h);
+	destCurrScore.x = 10;
+	destCurrScore.y = 0;
+	destCurrScore.w = destCurrScore.w / 2;
+	destCurrScore.h = destCurrScore.h / 2;
+
 }
 
 void Game::render() {
@@ -270,6 +263,7 @@ void Game::render() {
 	rocket->render();
 	lazerChargeGUI->render();
 	powerUpGo->render();
+	SDL_RenderCopy(renderer, currScoreTex, NULL, &destCurrScore);
 	
 
 	for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end(); it++) {
@@ -281,6 +275,7 @@ void Game::render() {
 	for (list<GameObject*>::iterator it = rocketlives.begin(); it != rocketlives.end(); ++it) {
 		(*it)->render();
 	}
+
 	//
 	
 	SDL_RenderPresent(renderer);
@@ -291,13 +286,9 @@ void Game::render() {
 void Game::clean() {
 	SDL_DestroyWindow(window);
 	// Free the music data
-	Mix_FreeMusic(backgroundMusic);
-	Mix_FreeChunk(lazerSound);
-	Mix_FreeChunk(explosionSound);
-	lazerSound = NULL;
-	explosionSound = NULL;
-	backgroundMusic = NULL;
+	soundEngine->cleans();
 	SDL_DestroyRenderer(renderer);
+
 	Mix_Quit(); // closes audio engine
 	SDL_Quit();
 	cout << "Game Cleared" << endl;

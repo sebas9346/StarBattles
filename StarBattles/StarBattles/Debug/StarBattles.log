@@ -1,2 +1,16 @@
-﻿  EndScreen.cpp
-  StarBattles.vcxproj -> C:\Users\aindi\Desktop\StarBattles\StarBattles\Debug\StarBattles.exe
+﻿  Asteroid.cpp
+  EndScreen.cpp
+  GameObject.cpp
+  Game.cpp
+c:\users\sebas\desktop\ece4122final\starbattles\starbattles\starbattles\game.cpp(221): warning C4018: '<': signed/unsigned mismatch
+  LazerCharge.cpp
+  Lazer.cpp
+  Main.cpp
+c:\users\sebas\desktop\ece4122final\starbattles\starbattles\starbattles\main.cpp(26): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Rocketship.cpp
+  PowerUp.cpp
+  Sound.cpp
+  StartScreen.cpp
+  TextureManager.cpp
+  Generating Code...
+  StarBattles.vcxproj -> C:\Users\sebas\Desktop\ECE4122final\StarBattles\StarBattles\Debug\StarBattles.exe
