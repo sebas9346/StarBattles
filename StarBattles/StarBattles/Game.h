@@ -18,7 +18,7 @@ class Game{
 		void update(); //Individual class update functions will go here!!
 		void render();
 		void clean();
-
+		void compareScores();
 		bool running() { return isRunning; };
 
 	private:

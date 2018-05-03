@@ -5,28 +5,32 @@
 #include "LazerCharge.h"
 #include "PowerUp.h"
 #include <time.h>
-
+#include <fstream>
+#include <string>
 #include <iterator>
 #include <list>
 
-
 using namespace std;
-//Asteroids
-list<GameObject*> asteroids;
-int numAsteroids = 0;
-int maxAsteroids = 10;
 
 // Music & sound effects resources
 Mix_Music *backgroundMusic = NULL;
 Mix_Chunk *lazerSound = NULL;
 Mix_Chunk *explosionSound = NULL;
 
+//Asteroids
+list<GameObject*> asteroids;
+int numAsteroids = 0;
+int maxAsteroids = 10;
 
 //Lazer
 Lazer* majorLazer;
-Rocketship* rocket;
+list<GameObject*> allLazers;
 LazerCharge* lazerChargeGUI;
 int lives = 3;
+
+//Rocketship
+Rocketship* rocket;
+list<GameObject*> rocketlives;
 
 //PowerUp
 PowerUp* powerUpGo;
@@ -37,9 +41,8 @@ bool fullCharge;
 
 bool firedLast = false; //keep track of spacebar keystroke
 int lazerShift = 0; //to center the firing of lazers
+int highScore; //keep track of the high score
 
-list<GameObject*> allLazers;
-list<GameObject*> rocketlives;
 SDL_Texture* backGround;
 
 Game::Game(){
@@ -113,8 +116,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	// Play the tunes once everything's set up
 	Mix_PlayMusic(backgroundMusic, -1);
 	
-	
-
 }
 
 void Game::handleEvents() {
@@ -184,11 +185,12 @@ void Game::update() {
 		
 		bool collisionFlag = false;
 		(*la)->update();
-		//some code here for @Victor for asteroid collision
 		for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
 			if ((*it)->collision(*la)) {
 				(*it)->reset();
 				collisionFlag = true;
+				rocket->isScore(); //update the score by 1 point for every asteroid shot
+				//cout << rocket->getScore(); << endl;
 				Mix_PlayChannel(-1, explosionSound, 1);
 				break;
 			}
@@ -241,32 +243,18 @@ void Game::update() {
 			numAsteroids++;
 			
 	}
-	/*for (list<GameObject*>::iterator it = asteroids.begin(); it != asteroids.end();) {
-	
-		(*it)->update();
-		if ((*it)->collision(rocket)) {
-			rocket->isDead();
-			(*it)->reset();
-			rocket->reset();
-		}
-		
-		if ((*it)->isOutOfBounds()) {
-			(*it)->reset();
-		}
-		else {
-			it++;
-		}
-	}*/
 
 	if (rocket->getLife() < lives) {
-		cout << "dec lives" << endl;
+		//cout << "Number of lives left: ";
 		lives = rocket->getLife();
 		GameObject* tmp = rocketlives.front();
 		tmp->setX(1000);
 		rocketlives.remove(tmp);
-		cout << rocketlives.size()<<endl;
+		cout << rocketlives.size() << endl;
+
 		if (rocket->getLife() == 0) {
-			isRunning = false;
+			compareScores(); //compare previous score for high score
+			isRunning = false;  //end the game
 		}
 	}
 	for (list<GameObject*>::iterator it = rocketlives.begin(); it != rocketlives.end(); ++it) {
@@ -298,6 +286,8 @@ void Game::render() {
 	SDL_RenderPresent(renderer);
 
 }
+
+//Destroy Game window
 void Game::clean() {
 	SDL_DestroyWindow(window);
 	// Free the music data
@@ -311,4 +301,24 @@ void Game::clean() {
 	Mix_Quit(); // closes audio engine
 	SDL_Quit();
 	cout << "Game Cleared" << endl;
+}
+
+//Compare the score if the user has played 
+//this game more than once --> high score
+void Game::compareScores() {
+	int temp;
+	ifstream readFile("score.txt"); //open the file for reading
+	if (readFile.is_open())
+	{
+		while (readFile >> temp) {}
+		if (temp < rocket->getScore()) //for cases when nothing in file
+			highScore = rocket->getScore();
+		else
+			highScore = temp;
+	}
+	readFile.close();
+
+	ofstream writeFile("score.txt");
+	writeFile << highScore << endl;
+	writeFile.close();
 }

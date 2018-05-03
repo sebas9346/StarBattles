@@ -33,6 +33,8 @@ public:
 	bool is_powered();
 	void set_power();
 
+	int getScore();
+
 protected:
 	bool killed; //true or false value to determine end of game
 	bool poweredUp;

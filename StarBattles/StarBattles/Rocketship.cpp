@@ -124,4 +124,8 @@ void Rocketship::set_power() {
 	powerStart = clock();
 }
 
+int Rocketship::getScore() {
+	return score;
+}
+
 
