@@ -9,14 +9,18 @@
 #include <string>
 #include <iterator>
 #include <list>
+#include <time.h>
 
 
 using namespace std;
+//timer
+time_t start, endt;
+double elapsed;
 
 //Asteroids
 list<GameObject*> asteroids;
 int numAsteroids = 0;
-int maxAsteroids = 10;
+int maxAsteroids = 5;
 
 //Lazer
 Lazer* majorLazer;
@@ -94,6 +98,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height,boo
 	TTF_Init();
 	blue = { 242, 125, 53 };
 	font = TTF_OpenFont("ARDESTINE.ttf", 72);
+
+	time(&start); //start timer
 	
 	
 }
@@ -112,6 +118,15 @@ void Game::handleEvents() {
 
 //Individual class update functions will go here!!
 void Game::update() {
+
+	//Controls incrementing of number of aseroids every 5 seconds
+	time(&endt);
+	elapsed = difftime(endt, start);
+	if (elapsed > 5) {
+		time(&start);
+		maxAsteroids+=2;
+	}
+
 
 	inputmanager->Update();
 	
@@ -170,7 +185,6 @@ void Game::update() {
 				(*it)->reset();
 				collisionFlag = true;
 				rocket->isScore(); //update the score by 1 point for every asteroid shot
-				//cout << rocket->getScore(); << endl;
 				soundEngine->playExplosion();
 				break;
 			}
@@ -183,8 +197,8 @@ void Game::update() {
 		}
 
 		if (collisionFlag) {
-			allLazers.remove(*la);
-			(*la)->reset();
+			allLazers.remove((*la));
+			((*la))->reset();
 		}
 	}
 
